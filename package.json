@@ -1,0 +1,24 @@
+{
+  "name": "book_record_management",
+  "version": "1.0.0",
+  "description": "Book management server build using node js and express js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keshab2003/Book_record_management.git"
+  },
+  "author": "Keshab chaudhary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Keshab2003/Book_record_management/issues"
+  },
+  "homepage": "https://github.com/Keshab2003/Book_record_management#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
