@@ -9,7 +9,8 @@
             "issuedDate": "01/01/2023",
             "returnDate": "02/01/2023",
             "subscriptionType": "Premium",
-            "subscriptionDate": "01/01/2023"
+            "subscriptionDate": "01/01/2023",
+            "fine": "100"
         },
         {
             "id": "2",

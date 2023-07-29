@@ -134,6 +134,78 @@ router.delete("/:id", (req, res) => {
 
 });
 
+/**
+ * Route :/users/subscription-details/:id
+ * Method:get
+ * Description:Get all user subscription details
+ * Access:public
+ * Parameters:id
+ */
+
+
+router.get("/subscription-details/:id", (req, res) => {
+    const { id } = req.params;
+    const user = users.find((each) => each.id === id);
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: "the user does not exist",
+        });
+    }
+
+
+    const getDateInDays = (data = "") => {
+        let date;
+        if (data === "") {
+            date = new Date();
+        } else {
+            //getting date on bacis of data vriable
+            date = new Date(data);
+        }
+        //multiplying with 1000 simplely means that it is done for tackling the milliseconds
+        let days = Math.floor(date / 1000 * 60 * 60 * 24);
+        return days;
+    };
+
+    const subscriptionType = (date) => {
+        if (user.subscriptionType === "Basic") {
+            date = date + 90;
+        }
+        else if (user.subscriptionType === "Standard") {
+            date = date + 180;
+        }
+        else if (user.subscriptionType === "Premium") {
+            date = date + 365;
+        }
+        return date;
+    };
+
+    let returnDate = getDateInDays(user.returnDate);
+    let currentDate = getDateInDays();
+    let subscriptionDate = getDateInDays(user.subscriptionDate);
+    let subscriptionExpiration = subscriptionType(subscriptionDate);
+
+    const data = {
+        ...user,
+        subscriptionExpired: subscriptionExpiration < currentDate,
+        daysLeftForExpiration:
+            subscriptionExpiration <= currentDate
+                ? 0
+                : subscriptionExpiration - currentDate,
+
+        fine:
+            returnDate < currentDate
+                ? subscriptionExpiration >= currentDate
+                    ? 100
+                    : 200
+                : 0,
+    };
+    res.status(200).json({
+        success: true,
+        data,
+    });
+
+});
 
 module.exports = router;//this is important it simply says that it can be imported by any other file.
 //this must be written at the end
