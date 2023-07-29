@@ -11,26 +11,26 @@ const router = express.Router();
  * Access:public
  * Parameters:None
  */
-router.get("/", (req, res) => {
-    res.status(200).json({
-        message: "the route has been successfully created",
-        success: true,
-        body: books
-    });
-});
+// router.get("/", (req, res) => {
+//     res.status(200).json({
+//         message: "the route has been successfully created",
+//         success: true,
+//         body: books
+//     });
+// });
 
-/**
- * Route :/books/:id
- * Method:GET
- * Description:Get the details of book using id
- * Access:public
- * Parameters:id
- */
+// /**
+//  * Route :/books/search/:id
+//  * Method:GET
+//  * Description:Get the details of book using id
+//  * Access:public
+//  * Parameters:id
+//  */
 
-router.get("/:id", (req, res) => {
+router.get("/search/:id", (req, res) => {
     const { id } = req.params;
-    const book = books.find((each) => each, id === id);
-    if (!books) {
+    const bookss = books.find((each) => each.id === id);
+    if (!bookss) {
         return res.status(500).json({
             success: false,
             message: "the searched book does not exits! "
@@ -39,20 +39,20 @@ router.get("/:id", (req, res) => {
     res.status(200).json({
 
         success: true,
-        data: book
+        data: bookss
     });
 });
 
-/**
- * Route :/books/issued/books
- * Method:GET
- * Description:Get the details of book which is issued
- * Access:public
- * Parameters:none
- */
+// /**
+//  * Route :/books/issued/books
+//  * Method:GET
+//  * Description:Get the details of book which is issued
+//  * Access:public
+//  * Parameters:none
+//  */
 
-//here issued was not able to stabke it self as route as issued in postman took as a paramater for upper function
-//so we need to add some extra routes
+// //here issued was not able to stabke it self as route as issued in postman took as a paramater for upper function
+// //so we need to add some extra routes
 
 router.get("/issued/by_user", (req, res) => {
     const userWithIssuedBook = users.filter((each) => {
@@ -84,13 +84,13 @@ router.get("/issued/by_user", (req, res) => {
     })
 });
 
-/**
- * Route :/books
- * Method:POST
- * Description:Get the details of book which is issued
- * Access:public
- * Parameters:none
- */
+// /**
+//  * Route :/books
+//  * Method:POST
+//  * Description:Get the details of book which is issued
+//  * Access:public
+//  * Parameters:none
+//  */
 
 router.post("/", (req, res) => {
     const { book } = req.body;
@@ -116,13 +116,13 @@ router.post("/", (req, res) => {
     });
 });
 
-/**
- * Route :/books/:id
- * Method:PUT
- * Description:Update the book details
- * Access:public
- * Parameters:id
- */
+// /**
+//  * Route :/books/:id
+//  * Method:PUT
+//  * Description:Update the book details
+//  * Access:public
+//  * Parameters:id
+//  */
 
 router.put("/:id", (req, res) => {
     const { id } = req.params;
@@ -154,29 +154,32 @@ router.put("/:id", (req, res) => {
  */
 
 
-router.get("/finnedBook", (req, res) => {
+router.get("/fine", (req, res) => {
     const userWithFine = users.filter((each) => {
         if (each.fine) {
             return each;
         }
     });
-
+    // console.log("hio");
     const finnedBook = [];
-
-    userWithFine.foreach((each) => {
-        const bookF = books.find((book) => book.id === each.issuedBook);
+    // console.log("hio");
+    userWithFine.forEach((each) => {
+        // console.log(` ${each} `);
+        const book = books.find((book) => book.id === each.issuedBook);
+        book.fineed = each.fine;
         finnedBook.push(book);
     });
 
-    if (finnedBook.length === 0) {
-        return res.status(404).json({
-            success: false,
-            message: "There is no user with fine!",
-        });
-    }
-    res.status(200).json({
+    // if (finnedBook.length === 0) {
+    //     return res.status(404).json({
+    //         success: false,
+    //         message: "There is no user with fine!",
+    //     });
+    // }
+    return res.status(200).json({
         success: true,
-        body: finnedBook,
+        message: "successfully done!",
+        data: finnedBook,
     });
 });
 
